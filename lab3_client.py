@@ -17,13 +17,15 @@ def createMessage():
     return message
 
 def sendMessage():
+
     sqs = boto3.resource('sqs')
     queue = sqs.get_queue_by_name(QueueName = 'requestQueue')
     #message = createMessage()
-    message = '1,5,22,33,9,0,-15,8,22,100,33,62,90,150'
-    response = queue.send_message(MessageBody = message)
+    message = '1,5,22,33,9,0,-15,8,22,100,33,62,90,150,1,2'
+    queue.send_message(MessageBody = message)
 
 def readMessage():
+
     sqs = boto3.resource('sqs')
     queue = sqs.get_queue_by_name(QueueName = 'responseQueue')
     messageList = []
@@ -37,8 +39,7 @@ def readMessage():
             'ReceiptHandle': message.receipt_handle
         })
     if len(messages_to_delete) != 0:
-        delete_response = queue.delete_messages(
-            Entries=messages_to_delete)
+        queue.delete_messages(Entries=messages_to_delete)
 
 def main():
 

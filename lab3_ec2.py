@@ -43,17 +43,19 @@ def process(message):
     return response
 
 def main():
+
     sqs = boto3.resource('sqs')
     requestQueue = sqs.get_queue_by_name(QueueName = 'requestQueue')
     responseQueue = sqs.get_queue_by_name(QueueName = 'responseQueue')
 
-    file = open("log.txt", 'r+')
     while True:
         messageList = []
         messages_to_delete = []
         for message in requestQueue.receive_messages(MaxNumberOfMessages = 10):
             print(message.body)
-            file.write(message.body)
+            with open("log.txt", "a") as myfile:
+                myfile.write(message.body)
+                myfile.write('\n')
             messageList.append(message.body)
             messages_to_delete.append({
                 'Id': message.message_id,
@@ -62,8 +64,7 @@ def main():
 
         # delete messages to remove them from SQS queue
         if len(messages_to_delete) != 0:
-            delete_response = requestQueue.delete_messages(
-                Entries=messages_to_delete)
+            requestQueue.delete_messages(Entries=messages_to_delete)
         
         else:
             print('Empty')
@@ -73,9 +74,7 @@ def main():
                 result = process(message)
                 responseQueue.send_message(MessageBody = result)
 
-        sleep(5)
-
-
+        sleep(1.5)
 
 main()
 
