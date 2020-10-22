@@ -3,6 +3,8 @@
 import boto3
 import statistics
 from time import sleep
+from datetime import datetime
+
 # Parser pour récupérer le message sous forme d'une liste d'entiers
 def parser(message):
     liste=message.split(",")
@@ -53,7 +55,10 @@ def main():
         messages_to_delete = []
         for message in requestQueue.receive_messages(MaxNumberOfMessages = 10):
             print(message.body)
+            date = datetime.now()
+            realDate = date.strftime("%d/%m/%Y %H:%M:%S ")
             with open("log.txt", "a") as myfile:
+                myfile.write(realDate)
                 myfile.write(message.body)
                 myfile.write('\n')
             messageList.append(message.body)
@@ -71,10 +76,13 @@ def main():
         
         if len(messageList) != 0:
             for message in messageList:
-                result = process(message)
-                responseQueue.send_message(MessageBody = result)
-
-        sleep(1.5)
+                try:
+                    result = process(message)
+                    responseQueue.send_message(MessageBody = result)
+                    break
+                except:
+                    responseQueue.send_message(MessageBody = 'Wrong input')
+        #sleep(1.5)
 
 main()
 
