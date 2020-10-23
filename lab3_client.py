@@ -106,7 +106,7 @@ def main():
             print("invalid answer...")
             continue
 
-        if mode != 4: #n'envoie pas de message si purge selectionnée
+        if mode != "4": #n'envoie pas de message si purge selectionnée
             print("Envoi de : \n", message, "\n")
 
             try :#ENVOI
