@@ -79,6 +79,7 @@ def main():
         print("1 - message préfait automatique")
         print("2 - message aléatoire automatique")
         print("3 - message saisi manuelement")
+        print("4 - purger les reponses de la queue")
         print("0 - quitter\n\n")
         mode = input("choix : ")
 
@@ -97,6 +98,9 @@ def main():
 
         elif mode == "3": #message saisi manuelement
             message = inputMessage()
+        
+        elif mode == "4":
+            purgeResponses()
             
         else :
             print("invalid answer...")
