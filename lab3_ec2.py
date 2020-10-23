@@ -2,7 +2,6 @@
  
 import boto3
 import statistics
-from time import sleep
 from datetime import datetime
 
 # Parser pour récupérer le message sous forme d'une liste d'entiers
@@ -51,7 +50,7 @@ def main():
         requestQueue = sqs.get_queue_by_name(QueueName = 'requestQueue')
         responseQueue = sqs.get_queue_by_name(QueueName = 'responseQueue')
     except Exception as e:
-        print("/!\ ERROR : impossible de se connecter aux servers SQS /!\\")
+        print("### ERROR : impossible de se connecter aux servers SQS ###")
         print(e, "\n\n")
         exit(-1)
 
@@ -78,7 +77,7 @@ def main():
             requestQueue.delete_messages(Entries=messages_to_delete)
         
         else:
-            print('Empty')
+            print('No Request to Process')
         
         if len(messageList) != 0:
             for message in messageList:
@@ -89,13 +88,7 @@ def main():
                 except Exception as e:
                     responseQueue.send_message(MessageBody = 'Wrong input')
                     print(e)
-        #sleep(1.5)
 
+print('\n### PROGRAM INITIALIZED ###\n')
 main()
-
-
-    
-
-
-
-
+print('\n### PROGRAM TERMINATED ###\n')

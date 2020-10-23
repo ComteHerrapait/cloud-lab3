@@ -1,7 +1,7 @@
 # Client
 
 import boto3
-from time import sleep
+from time import time
 from random import randint
 def createMessage():
     message=""
@@ -33,24 +33,28 @@ def sendMessage(message):
     queue.send_message(MessageBody = message)
 
 def readMessage():
-    sqs = boto3.resource('sqs')
-    queue = sqs.get_queue_by_name(QueueName = 'responseQueue')
-    messageList = []
-    messages_to_delete = []
-    for message in queue.receive_messages(MaxNumberOfMessages = 10):
-        print(message.body)
-        messageList.append(message.body)
-        messages_to_delete.append({
-            'Id': message.message_id,
-            'ReceiptHandle': message.receipt_handle
-        })
-    if len(messages_to_delete) != 0:
-        queue.delete_messages(Entries=messages_to_delete)
+    waiting = "en attente de réponse"
+    response = ""
+    print(waiting, end="\r")
 
-    else:
-        print('\rWaiting for answer', end="\r")
-        sleep(1)
-        readMessage()
+    while response == "" :
+        sqs = boto3.resource('sqs')
+        queue = sqs.get_queue_by_name(QueueName = 'responseQueue')
+        messages_to_delete = []
+        for message in queue.receive_messages(MaxNumberOfMessages = 10):
+            response = message.body
+            messages_to_delete.append({
+                'Id': message.message_id,
+                'ReceiptHandle': message.receipt_handle
+            })
+
+        if len(messages_to_delete) != 0:
+            queue.delete_messages(Entries=messages_to_delete)
+        else: #waiting text
+            waiting += "."
+            print(waiting, end="\r")
+
+    print("\n\n",response,"\n")
 
 def main():
     while True:
@@ -61,8 +65,8 @@ def main():
         mode = input("choix : ")
 
         if mode == "0":
-            print('\n### PROGRAM TERMINATED ###\n')
             break
+
         elif mode == "1" : #message préfait automatique
             message = '1,5,22,33,9,0,-15,8,22,100,33,62,90,150,1,2,3'
 
@@ -82,14 +86,25 @@ def main():
 
         print("Message envoyé : \n", message, "\n")
 
-        try :
+        
+        try :#ENVOI
+            chronoStart = time()
             sendMessage(message)
         except Exception as e:
-            print("/!\ ERROR : impossible d'envoyer le message /!\\")
+            print("### ERROR : impossible d'envoyer le message ###")
             print(e, "\n\n")
             continue
 
-        readMessage() #reception
+        try :#RECEPTION
+            readMessage()
+            chronoStop = time()
+            print("requete traitée en {:1.3f} secondes\n".format(chronoStop-chronoStart))
+        except Exception as e:
+            print("### ERROR : impossible de recevoir le message ###")
+            print(e, "\n\n")
+            continue
+
 
 print('\n### PROGRAM INITIALIZED ###\n')
 main()
+print('\n### PROGRAM TERMINATED ###\n')
