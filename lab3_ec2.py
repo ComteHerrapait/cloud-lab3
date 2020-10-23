@@ -46,9 +46,15 @@ def process(message):
 
 def main():
 
-    sqs = boto3.resource('sqs')
-    requestQueue = sqs.get_queue_by_name(QueueName = 'requestQueue')
-    responseQueue = sqs.get_queue_by_name(QueueName = 'responseQueue')
+    try :
+        sqs = boto3.resource('sqs')
+        requestQueue = sqs.get_queue_by_name(QueueName = 'requestQueue')
+        responseQueue = sqs.get_queue_by_name(QueueName = 'responseQueue')
+    except Exception as e:
+        print("/!\ ERROR : impossible de se connecter aux servers SQS /!\\")
+        print(e, "\n\n")
+        exit(-1)
+
 
     while True:
         messageList = []
@@ -80,8 +86,9 @@ def main():
                     result = process(message)
                     responseQueue.send_message(MessageBody = result)
                     break
-                except:
+                except Exception as e:
                     responseQueue.send_message(MessageBody = 'Wrong input')
+                    print(e)
         #sleep(1.5)
 
 main()
