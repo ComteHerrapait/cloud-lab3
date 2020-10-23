@@ -79,7 +79,7 @@ def main():
         print("1 - message préfait automatique")
         print("2 - message aléatoire automatique")
         print("3 - message saisi manuelement")
-        print("4 - purger les reponses de la queue")
+        print("4 - purger les réponses de la queue")
         print("0 - quitter\n\n")
         mode = input("choix : ")
 
@@ -101,30 +101,30 @@ def main():
         
         elif mode == "4":
             purgeResponses()
-            
+
         else :
             print("invalid answer...")
             continue
 
-        print("Message envoyé : \n", message, "\n")
+        if mode != 4: #n'envoie pas de message si purge selectionnée
+            print("Envoi de : \n", message, "\n")
 
-        
-        try :#ENVOI
-            chronoStart = time()
-            sendMessage(message)
-        except Exception as e:
-            print("### ERROR : impossible d'envoyer le message ###")
-            print(e, "\n\n")
-            continue
+            try :#ENVOI
+                chronoStart = time()
+                sendMessage(message)
+            except Exception as e:
+                print("### ERROR : impossible d'envoyer le message ###")
+                print(e, "\n\n")
+                continue
 
-        try :#RECEPTION
-            readMessage()
-            chronoStop = time()
-            print("requete traitée en {:1.3f} secondes\n".format(chronoStop-chronoStart))
-        except Exception as e:
-            print("### ERROR : impossible de recevoir le message ###")
-            print(e, "\n\n")
-            continue
+            try :#RECEPTION
+                readMessage()
+                chronoStop = time()
+                print("requete traitée en {:1.3f} secondes\n".format(chronoStop-chronoStart))
+            except Exception as e:
+                print("### ERROR : impossible de recevoir le message ###")
+                print(e, "\n\n")
+                continue
 
 
 print('\n### PROGRAM INITIALIZED ###')
