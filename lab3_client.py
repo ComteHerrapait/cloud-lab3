@@ -56,6 +56,24 @@ def readMessage():
 
     print("\n\n",response,"\n")
 
+def purgeResponses():
+    purged = 0
+
+    sqs = boto3.resource('sqs')
+    queue = sqs.get_queue_by_name(QueueName = 'responseQueue')
+    messages_to_delete = []
+    for message in queue.receive_messages(MaxNumberOfMessages = 10):
+        messages_to_delete.append({
+            'Id': message.message_id,
+            'ReceiptHandle': message.receipt_handle
+        })
+        purged += 1
+    if len(messages_to_delete) != 0:
+        queue.delete_messages(Entries=messages_to_delete)
+
+    print("Purged {} messages.\n\n".format(purged))
+
+
 def main():
     while True:
         print("1 - message préfait automatique")
@@ -105,6 +123,7 @@ def main():
             continue
 
 
-print('\n### PROGRAM INITIALIZED ###\n')
+print('\n### PROGRAM INITIALIZED ###')
+purgeResponses()
 main()
 print('\n### PROGRAM TERMINATED ###\n')
