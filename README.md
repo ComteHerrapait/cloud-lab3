@@ -15,12 +15,17 @@ Create two sqs queues :
 	aws sqs create-queue --queue-name responseQueue --attributes file://create-queue.json
 
 Content of create-queue.json :
+	
 	{
   		"DelaySeconds": "1",
   		"MessageRetentionPeriod": "3600",
   		"ReceiveMessageWaitTimeSeconds": "1",
   		"VisibilityTimeout": "1"
 	}
+	
+Create s3 bucket :
+
+	aws s3api create-bucket --bucket lab3-bucket9 --region us-east-1
 
 Install the correct packages on the ec2 instance after connecting with putty :
 
