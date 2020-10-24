@@ -36,7 +36,7 @@ def purgeImages():
     sqs = boto3.resource('sqs')
     outQueue = sqs.get_queue_by_name(QueueName = 'imageOutbox')
     messages_to_delete = []
-    while len(messages_to_delete) != 0 :
+    while True:
         for message in outQueue.receive_messages(MaxNumberOfMessages = 10):
             messages_to_delete.append({
                 'Id': message.message_id,
@@ -45,6 +45,8 @@ def purgeImages():
             purged += 1
         if len(messages_to_delete) != 0:
             outQueue.delete_messages(Entries=messages_to_delete)
+        else:
+            break
 
     print("Purged {} messages.\n\n".format(purged))
 
