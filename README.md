@@ -46,7 +46,7 @@ Launch the python script :
 
 	python3 lab3_ec2.py
 
-Install tmux to allow the script to run even after putty has been closed down :
+Install tmux to allow the script to run even after putty has been shut down :
 
 	tmux new -s server-lab3
 	tmux a -t server-lab3
