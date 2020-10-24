@@ -3,7 +3,7 @@ from PIL import Image
 
 def imgProcess():
     # Open image by knowing path 
-    img = Image.open("images.png")  
+    img = Image.open("test.png")  
     
     # Convert to grayscale
     gray = img.convert('1')
