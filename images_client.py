@@ -43,7 +43,7 @@ def purgeImages():
         if len(messages_to_delete) != 0:
             outQueue.delete_messages(Entries=messages_to_delete)
 
-    print("Purged {} messages.\n\n".format(purged))
+    print("Purged {} messages.".format(purged))
 
 
 def readResponse():
@@ -83,6 +83,7 @@ def readResponse():
         downloadImage(response)
 
 def downloadImage(name=""):
+    """Downloads an image from the bucket under the folder images/processed """
     if name == "":
         displayFolder("images/processed/")
         name = input("enter the name of the file to download : ")
@@ -90,6 +91,8 @@ def downloadImage(name=""):
     s3.meta.client.download_file('lab3-bucket9', "images/processed/{}".format(name),name)
 
 def displayFolder(path):
+    """displays files contained in the folder"""
+    print("\n")
     s3 = boto3.resource('s3')
     my_bucket = s3.Bucket('lab3-bucket9')
     for my_bucket_object in my_bucket.objects.filter(Prefix=path):
