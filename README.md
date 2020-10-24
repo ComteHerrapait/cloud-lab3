@@ -44,7 +44,8 @@ Install the correct packages on the ec2 instance after connecting with putty :
 
 Launch the python script :
 
-	python3 lab3_ec2.py
+	python3 numbers_client.py
+	python3 images_client.py
 
 Install tmux to allow the script to run even after putty has been shut down :
 
