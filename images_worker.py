@@ -1,5 +1,4 @@
 import boto3
-import matplotlib.pyplot as plt 
 import os
 from PIL import Image
 
