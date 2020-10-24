@@ -86,7 +86,6 @@ def downloadImage(name=""):
     if name == "":
         displayFolder("images/processed/")
         name = input("enter the name of the file to download : ")
-
     s3 = boto3.resource('s3')
     s3.meta.client.download_file('lab3-bucket9', "images/processed/{}".format(name),name)
 
@@ -98,6 +97,7 @@ def displayFolder(path):
         name = path.split("/")[-1]
         if name != "":
             print(" - {}".format(name))
+
 def main():
     while True:
         print("\n\n1 - upload an image")
@@ -129,7 +129,6 @@ def main():
         else :
             print("invalid answer...")
             continue
-
 
 
 print('\n### PROGRAM INITIALIZED ###')

@@ -5,7 +5,7 @@ from time import time
 from random import randint
 
 def inputMessage():
-""" takes no argument, returns a string with numbers separated by comma """
+    """ takes no argument, returns a string with numbers separated by comma """
     message = ""
     while True:
         i = input ("number(s) {} <- ".format(message))
@@ -21,7 +21,7 @@ def inputMessage():
 
 
 def sendMessage(message):
-""" takes a string as argument, returns nothing, allows the client to send messages to the server """
+    """ takes a string as argument, returns nothing, allows the client to send messages to the server """
     # initiates a connection
     sqs = boto3.resource('sqs')
     
@@ -32,7 +32,7 @@ def sendMessage(message):
     queue.send_message(MessageBody = message)
 
 def readMessage():
-""" takes no argument, returns nothing, prints the response, allows the client to read responses of the server """
+    """ takes no argument, returns nothing, prints the response, allows the client to read responses of the server """
     waiting = "Waiting for a response"
     response = ""
     print(waiting, end="\r")
@@ -67,7 +67,7 @@ def readMessage():
     print("\n\n",response,"\n")
 
 def purgeResponses():
-""" takes no argument, returns nothing, allows the client to purge the queue"""
+    """ takes no argument, returns nothing, allows the client to purge the queue"""
     purged = 0
     
     # initiates a connection 
