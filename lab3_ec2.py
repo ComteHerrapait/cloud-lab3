@@ -2,6 +2,7 @@
  
 import boto3
 import statistics
+import os
 from datetime import datetime
 
 # Parser pour récupérer le message sous forme d'une liste d'entiers
@@ -45,7 +46,10 @@ def process(message):
 
 def main():
 
-    try :
+    if os.path.exists("log.txt"):
+        os.remove("log.txt")
+
+    try:
         sqs = boto3.resource('sqs')
         requestQueue = sqs.get_queue_by_name(QueueName = 'requestQueue')
         responseQueue = sqs.get_queue_by_name(QueueName = 'responseQueue')
@@ -54,6 +58,12 @@ def main():
         print(e, "\n\n")
         exit(-1)
 
+    try:
+        s3 = boto3.resource('s3')
+        s3.meta.client.download_file('lab3-bucket9', 'log.txt', 'log.txt')
+    except Exception as e:
+        file = open('log.txt','w')
+        s3.meta.client.upload_file('log.txt', 'lab3-bucket9', 'log.txt')
 
     while True:
         messageList = []
@@ -66,6 +76,7 @@ def main():
                 myfile.write(realDate)
                 myfile.write(message.body)
                 myfile.write('\n')
+            s3.meta.client.upload_file('log.txt', 'lab3-bucket9', 'log.txt')
             messageList.append(message.body)
             messages_to_delete.append({
                 'Id': message.message_id,
