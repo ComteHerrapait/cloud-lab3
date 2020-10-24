@@ -6,8 +6,11 @@ from time import time
 def uploadImage(path):
     """uploads an image to the bucket"""
     try:
+        pathTrim = str(path.split("/")[-1])
+        pathTrim = str(pathTrim.split("\\")[-1])
+        
+        distantPath = "images/unprocessed/{}".format(pathTrim)
         s3 = boto3.resource('s3')
-        distantPath = "images/unprocessed/{}".format(path)
         response = s3.meta.client.upload_file(path, 'lab3-bucket9', distantPath)
     except Exception as e:
         print("### ERROR : unable to connect to S3 ###")
@@ -43,7 +46,7 @@ def purgeImages():
         if len(messages_to_delete) != 0:
             outQueue.delete_messages(Entries=messages_to_delete)
 
-    print("Purged {} messages.".format(purged))
+    print("Purged {} messages.\n\n".format(purged))
 
 
 def readResponse():
@@ -83,16 +86,17 @@ def readResponse():
         downloadImage(response)
 
 def downloadImage(name=""):
-    """Downloads an image from the bucket under the folder images/processed """
     if name == "":
         displayFolder("images/processed/")
         name = input("enter the name of the file to download : ")
-    s3 = boto3.resource('s3')
-    s3.meta.client.download_file('lab3-bucket9', "images/processed/{}".format(name),name)
+    try :
+        s3 = boto3.resource('s3')
+        s3.meta.client.download_file('lab3-bucket9', "images/processed/{}".format(name),name)
+    except Exception as e:
+        print("### ERROR : unable to download this file")
+        print(e)
 
 def displayFolder(path):
-    """displays files contained in the folder"""
-    print("\n")
     s3 = boto3.resource('s3')
     my_bucket = s3.Bucket('lab3-bucket9')
     for my_bucket_object in my_bucket.objects.filter(Prefix=path):
