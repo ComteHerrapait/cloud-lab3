@@ -1,4 +1,22 @@
-# cloud-lab3 cli script
+# Report
+Here is the report on how we created our application. It is meant to present be a complement of the video and to explain how it works.
+
+## Summary
+This project was a two-part project. The first objective of it was to create a client-server application for numbers processing : min, max, mean and median computings. The second part was a client-server application for upload, download and image processing.
+
+### Numbers processing
+In order to make our project stable and fucntionable, we had to create two queues (request and response) for the client and the server (both opened on different terminals). We used the AWS Command Line Interface to create those queues and an EC2 instance. You'll find all the commands we used [there].
+
+The client posts a message that goes in the requestQueue. The server gets the message in this queue and then processes it before putting the result in the responseQueue. Finally, the client connects to the responseQueue to get its processed message.
+
+We have several options for the client. The user can either freely choose a message to send, or use a pre-built one, or use a random one and choose its length. If there is a problem in the queue, the user can purge it to delete all messages.
+
+### Image processing
+
+[there]: https://github.com/ComteHerrapait/cloud-lab3/#cloud-lab3-CLI-script
+## cloud-lab3 CLI script
+
+
 
 Create ec2 instance :
 
