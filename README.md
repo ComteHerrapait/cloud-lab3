@@ -1,5 +1,6 @@
 # Report
 Here is the report on how we created our application. It is meant to present be a complement of the video and to explain how it works.
+A video demo of the project is available [here](resources/code_demo.mp4)
 
 ## Summary
 This project was a two-part project. The first objective of it was to create a client-server application for numbers processing : min, max, mean and median computings. The second part was a client-server application for upload, download and image processing.
@@ -14,9 +15,9 @@ We have several options for the client. The user can either freely choose a mess
 ### Image processing
 
 [there]: https://github.com/ComteHerrapait/cloud-lab3/#cloud-lab3-CLI-script
-## cloud-lab3 CLI script
 
 
+## List of commands used to setup the sytem
 
 Create ec2 instance :
 
