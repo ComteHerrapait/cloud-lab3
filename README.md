@@ -59,7 +59,7 @@ Create s3 bucket :
 
 	aws s3api create-bucket --bucket lab3-bucket9 --region us-east-1
 
-Install the correct packages on the ec2 instance after connecting with putty :
+Install the correct packages on the ec2 instance through putty :
 
 	sudo yum update
 	sudo yum install python3
@@ -70,14 +70,19 @@ Install the correct packages on the ec2 instance after connecting with putty :
 	pip install image
 	aws configure
 
-Launch the python script :
+run the python scripts :
 
 	python3 numbers_client.py
 	python3 images_client.py
 
 Install tmux to allow the script to run even after putty has been shut down :
+(Tmux creates virtuals windows that continue to run when the terminal is closed, theses windows can also be accessed from two different SSH sessions)
 
 	tmux new -s server-lab3
 	tmux a -t server-lab3
 	tmux new -s server2-lab3
 	tmux a -t server2-lab3
+	
+One tmux window is used for each worker, the state of the windows can be observed with : 
+
+	tmux ls
