@@ -1,6 +1,6 @@
 # Report
 Here is the report on how we created our application. This report explains how the code works and how the worker and cient interact with one another through amazon's SQS queue system.
-A video demo of the project is available [here](resources/code_demo.mp4), this video is necessary as the system cannot stay up more than three hours at a time after which the credentials must be updated to access the SQS queues.
+A [video demo](https://github.com/ComteHerrapait/cloud-lab3/raw/master/resources/code_demo.mp4) of the project is available [here](resources/), this video is necessary as the system cannot stay up more than three hours at a time after which the credentials must be updated to access the SQS queues.
 This project has been a collaboration between 4 students : 
 - [Achambault Victor](https://github.com/ViviLeVivif)
 - [Delcroix Léon](https://github.com/ComteHerrapait)
@@ -8,7 +8,7 @@ This project has been a collaboration between 4 students :
 - [Laiguillon Ariane](https://github.com/AriTortue)
 	
 ## Summary
-This project was a two-part project. The first objective of it was to create a client-server application for numbers processing : min, max, mean and median computings. The second part was a client-server application for upload, download and image processing. The worker is hosted on a AWS EC2 machine in the cloud, with an account provided by our school.
+This project was a two-part project. The first objective of it was to create a client-server application for numbers processing : min, max, mean and median computings. The second part was a client-server application for upload, download and image processing. The worker is hosted on a AWS EC2 machine in the cloud, with an account provided by our school. Both applications are made in python.
 
 ### Number processing
 In order to make our project stable and fucntionable, we had to create two queues (request and response) for the client and the server (both opened on different terminals). We used the AWS Command Line Interface to create those queues and an EC2 instance. You'll find all the commands we used [there].
